@@ -20,7 +20,7 @@ body {
 
 .toolbar button {
   flex: 1;
-  marg
+  margin: 0;
 }
 .output {
   font-size: 16px;
@@ -44,4 +44,5 @@ body {
   padding: 5px;
   border-radius: 6px;
   overflow-x: auto;
+
 }
