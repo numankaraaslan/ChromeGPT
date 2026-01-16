@@ -22,6 +22,7 @@ const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
 const summarizeBtn = document.getElementById("summarizeBtn");
 const selectBtn = document.getElementById("selectBtn");
 const output = document.getElementById("output");
+let selectedText = "";
 
 // ==============================
 // MESSAGE FROM PAGE (ELEMENT SELECTED)
@@ -29,7 +30,8 @@ const output = document.getElementById("output");
 
 chrome.runtime.onMessage.addListener((msg) => {
   if (msg.type === "ELEMENT_SELECTED") {
-    output.textContent = msg.text;
+	selectedText = msg.text || "";
+    output.textContent = selectedText;
   }
 });
 
@@ -58,7 +60,7 @@ summarizeBtn.addEventListener("click", async () => {
     }
 
     output.textContent = "Sending content to GPT...";
-    const summary = await summarizeWithGPT(text);
+    const summary = await summarizeWithGPT();
     output.innerHTML = summary;
 
   } catch (err) {
@@ -137,8 +139,8 @@ function enableSelectionMode() {
 // GPT CALL
 // ==============================
 
-async function summarizeWithGPT(text) {
-  const truncated = text.slice(0, 12000);
+async function summarizeWithGPT() {
+  const truncated = selectedText.slice(0, 12000);
 
   const response = await fetch(OPENAI_URL, {
     method: "POST",
@@ -149,7 +151,7 @@ async function summarizeWithGPT(text) {
     body: JSON.stringify({
       model: "gpt-5.2-chat-latest",
       messages: [
-        { role: "system", content: "You are a concise summarizer. Summarize the content clearly in bullet points. Focus on key ideas, avoid fluff. Use the html formatting instead of markdown." },
+        { role: "system", content: "You are a concise summarizer. Summarize the content clearly in bullet points. Focus on key ideas, avoid fluff. Include a small simplified, human readable paragraph summary first, then write the rest as normal summary of the content. Use the html formatting instead of markdown." },
         { role: "user", content: truncated }
       ],
       max_completion_tokens: 2500
