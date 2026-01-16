@@ -30,8 +30,9 @@ let selectedText = "";
 
 chrome.runtime.onMessage.addListener((msg) => {
   if (msg.type === "ELEMENT_SELECTED") {
-	selectedText = msg.text || "";
+    selectedText = msg.text || "";
     output.textContent = selectedText;
+    summarizeBtn.disabled = !selectedText;
   }
 });
 
@@ -58,7 +59,7 @@ summarizeBtn.addEventListener("click", async () => {
       output.textContent = "Could not read page content.";
       return;
     }
-
+	summarizeBtn.disabled = false;
     output.textContent = "Sending content to GPT...";
     const summary = await summarizeWithGPT();
     output.innerHTML = summary;
