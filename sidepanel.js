@@ -10,7 +10,7 @@ const TARGET_TAB_ID = Number(params.get("tabId"));
 // ==============================
 
 // ⚠️ PUT YOUR API KEY HERE (local use only)
-const OPENAI_API_KEY = "sk-proj-xxx";
+const OPENAI_API_KEY = "sk-proj-xxxx";
 
 // GPT endpoint
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
