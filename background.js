@@ -1,5 +1,5 @@
 chrome.action.onClicked.addListener((tab) => {
-  const PANEL_WIDTH = 420;
+  const PANEL_WIDTH = 450;
 
   chrome.windows.getCurrent({}, (currentWindow) => {
     chrome.windows.create({
